@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Intranet Search</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #0f172a; color: #e2e8f0; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        
+        /* 우측 상단 로그인 메뉴 */
+        .top-nav { position: absolute; top: 25px; right: 35px; }
+        .top-nav a { color: #64748b; text-decoration: none; font-size: 14px; font-weight: bold; transition: color 0.3s; }
+        .top-nav a:hover { color: #38bdf8; }
+
+        .search-container { width: 100%; max-width: 650px; margin-top: 15vh; padding: 40px; background-color: transparent; }
+        
+        .logo-text { text-align: center; font-size: 36px; font-weight: 700; color: #38bdf8; margin-bottom: 10px; letter-spacing: 1px; }
+        .sub-text { text-align: center; color: #94a3b8; font-size: 15px; margin-bottom: 40px; }
+
+        /* 검색창 디자인 */
+        .input-group { display: flex; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); border-radius: 8px; overflow: hidden; }
+        input[type="text"] { flex: 1; padding: 18px 20px; font-size: 16px; background-color: #1e293b; border: 1px solid #334155; border-right: none; color: #f8fafc; outline: none; transition: background-color 0.3s; }
+        input[type="text"]:focus { background-color: #0f172a; border-color: #38bdf8; }
+        button { padding: 0 30px; font-size: 16px; font-weight: bold; background-color: #0284c7; color: white; border: none; cursor: pointer; transition: background-color 0.3s; }
+        button:hover { background-color: #0369a1; }
+
+        /* 해커 감성 터미널 창 (결과) */
+        .result-section { margin-top: 40px; background-color: #1e293b; padding: 25px; border-radius: 12px; border: 1px solid #334155; }
+        .result-title { color: #f8fafc; font-size: 16px; margin-bottom: 15px; border-bottom: 1px solid #334155; padding-bottom: 10px; }
+        .terminal { background-color: #000000; color: #22c55e; padding: 20px; border-radius: 8px; overflow-x: auto; font-family: 'Fira Code', monospace; font-size: 14px; line-height: 1.6; border: 1px solid #14532d; }
+        .terminal pre { margin: 0; }
+    </style>
+</head>
+<body>
+
+    <!-- 몰래 숨겨둔 관리자 로그인 버튼 -->
+    <div class="top-nav">
+        <a href="/login">⚙️ Admin</a>
+    </div>
+    
+    <div class="search-container">
+        <div class="logo-text">SISS Search</div>
+        <div class="sub-text">사내 문서 및 사용자 통합 검색 시스템</div>
+        
+        <form method="POST">
+            <div class="input-group">
+                <input type="text" name="host" placeholder="검색어를 입력하세요..." required autocomplete="off">
+                <button type="submit">검색</button>
+            </div>
+        </form>
+        
+        {% if data %}
+        <div class="result-section">
+            <div class="result-title">검색 결과 로직 처리 중 예외 발생...</div>
+            <div class="terminal">
+                <pre>{{ data }}</pre>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>
+
+    
