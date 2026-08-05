@@ -3,14 +3,12 @@ import subprocess
 import re
 
 app = Flask(__name__)
-# 로그인 상태를 기억하기 위한 비밀 열쇠입니다. (아무 문자열이나 상관없음)
 app.secret_key = 'siss_secret_key_for_session_1234'
 
-# [1주차] CmdI 방어용 블랙리스트 (리눅스 버전)
+#  CmdI 방어용 블랙리스트
 BLACKLIST = ['>', '<', '|', '*', '?', ';', 'rm', 'echo', 'app.py']
-# ========================================================
-# [1주차 파트] Ping 서비스 (Command Injection)
-# ========================================================
+#  Ping 서비스 (Command Injection)
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     result_data = ""
@@ -31,13 +29,11 @@ def index():
             result_data = output.decode('utf-8', errors='ignore')
         except subprocess.CalledProcessError as e:
             result_data = e.output.decode('utf-8', errors='ignore')
-
-    # [수정된 핵심 포인트] HTML이 요구하는 이름(data, cmd)으로 맞춰서 보내줍니다!
     return render_template('index.html', data=result_data, cmd=cmd_text)
 
-# ========================================================
-# [2주차 파트 1] 관리자 로그인
-# ========================================================
+
+#  관리자 로그인
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -53,25 +49,19 @@ def login():
             
     return render_template('login.html')
 
-# ========================================================
-# [2주차 파트 2] 관리자 대시보드 (SSTI 취약점 발생 구역!)
-# ========================================================
+# 관리자 대시보드 (SSTI 취약점 발생 구역!)
+
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
-    # 로그인 도장이 없으면 쫓아냅니다.
+   
     if not session.get('logged_in'):
         return redirect(url_for('login'))
 
-    # 기본 대시보드 화면 렌더링
     if request.method == 'GET':
         return render_template('dashboard.html')
 
     # POST 요청: 닉네임 설정 폼 제출 시
     nickname = request.form.get('nickname', 'Admin')
-    
-    # 🚨 [SSTI 취약점 발생 원리] 🚨
-    # 사용자 입력값(nickname)을 HTML 문자열에 쌩으로 넣고 render_template_string을 돌리면
-    # Jinja2 템플릿 엔진이 {{ }} 기호 안의 코드를 "서버 파이썬 코드"로 착각하고 실행해버립니다!
     template = f'''
     <!DOCTYPE html>
     <html lang="ko">
