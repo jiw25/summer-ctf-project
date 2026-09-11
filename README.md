@@ -49,11 +49,6 @@ python app.py
 
 
 
-## 📌 TODO
-
-* [ ] 문제 배포용 `Dockerfile` 및 `docker-compose.yml` 작성 (Ubuntu 베이스)
-* [ ] 컨테이너 내부에 `flag.txt` 및 `admin_password.txt` 권한 세팅 (www-data)
-* [ ] 공식 Write-up 작성
 
 ```
 
