@@ -29,8 +29,6 @@ python app.py
 
 ## 📝 Dev Log & Patch Notes
 
-**[최근 업데이트: 2026.08.15]**
-
 * **언인텐(Unintended) 숏컷 차단**
 * 문제점: 커맨드 인젝션 취약점이 터질 때, 참가자가 관리자 계정을 안 캐고 다이렉트로 `cat flag.txt`를 때려버리는 숏컷 발생.
 * 조치: WAF 블랙리스트 룰셋에 `flag` 키워드 추가. 무조건 `admin_password.txt`부터 읽고 정석 루트를 타도록 강제함.
